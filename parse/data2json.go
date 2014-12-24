@@ -7,34 +7,7 @@ import (
 	"fmt"
 	"log"
 	"os"
-	"strconv"
-	"strings"
-	"time"
 )
-
-func parseBool(s string) bool {
-	return strings.ToUpper(strings.TrimSpace(s)) == "Y"
-}
-
-func parseInt(s string) int {
-	i, err := strconv.Atoi(strings.TrimSpace(s))
-	if err != nil {
-		log.Printf("parseInt: %v", err)
-	}
-	return i
-}
-
-func parseString(s string) string {
-	return strings.TrimSpace(s)
-}
-
-func parseTime(d, t string) time.Time {
-	val, err := time.Parse("01/02/2006 1504 MST", fmt.Sprintf("%s %s EST", d, t))
-	if err != nil {
-		log.Printf("parseTime: %v", err)
-	}
-	return val
-}
 
 func parseAccident(entry string) *njcrash.Accident {
 	accident := njcrash.Accident{
@@ -97,13 +70,22 @@ func main() {
 	}
 	defer file.Close()
 
+	// Read through the file line by line.
 	scanner := bufio.NewScanner(file)
 	for scanner.Scan() {
 		entry := scanner.Text()
 		fmt.Println(entry)
-		accident := parseAccident(entry)
-		fmt.Printf("Accident: %#v\n", accident)
-		fmt.Println(accident.Time.String())
+		// Determine the type of entry by it's size.
+		switch len(entry) {
+		case 74, 161, 240, 200:
+			log.Fatal("Filetype unimplemented.")
+		case 458: // Accident
+			accident := parseAccident(entry)
+			fmt.Printf("Accident: %#v\n", accident)
+			fmt.Println(accident.Time.String())
+		default:
+			log.Fatalf("Unknown data of size %d", len(entry))
+		}
 	}
 	if err := scanner.Err(); err != nil {
 		log.Fatal(err)
