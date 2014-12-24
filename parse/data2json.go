@@ -4,6 +4,7 @@ import (
 	"njcrash"
 
 	"bufio"
+	"encoding/json"
 	"fmt"
 	"log"
 	"os"
@@ -12,6 +13,9 @@ import (
 func parseAccident(entry string) *njcrash.Accident {
 	accident := njcrash.Accident{
 		Year:                        parseInt(entry[0:4]),
+		CountyCode:                  parseString(entry[4:6]),
+		MunicipalityCode:            parseString(entry[6:8]),
+		DepartmentCaseNumber:        parseString(entry[8:31]),
 		CountyName:                  parseString(entry[32:44]),
 		MunicipalityName:            parseString(entry[45:69]),
 		CrashDate:                   parseString(entry[70:80]),
@@ -57,7 +61,7 @@ func parseAccident(entry string) *njcrash.Accident {
 		Longitude:                   parseString(entry[361:369]),
 		CellPhoneInUse:              parseBool(entry[370:371]),
 		OtherPropertyDamage:         parseString(entry[372:452]),
-		ReportingBadgeNo:            parseString(entry[453:458]),
+		ReportingBadgeNumber:        parseString(entry[453:458]),
 	}
 	accident.Time = parseTime(accident.CrashDate, accident.CrashTime)
 	return &accident
@@ -74,15 +78,20 @@ func main() {
 	scanner := bufio.NewScanner(file)
 	for scanner.Scan() {
 		entry := scanner.Text()
-		fmt.Println(entry)
+		log.Println(entry)
 		// Determine the type of entry by it's size.
 		switch len(entry) {
 		case 74, 161, 240, 200:
 			log.Fatal("Filetype unimplemented.")
 		case 458: // Accident
 			accident := parseAccident(entry)
-			fmt.Printf("Accident: %#v\n", accident)
-			fmt.Println(accident.Time.String())
+			log.Printf("Accident: %#v\n", accident)
+			log.Println(accident.Time.String())
+			data, err := json.Marshal(accident)
+			if err != nil {
+				log.Fatal(err)
+			}
+			fmt.Println(string(data))
 		default:
 			log.Fatalf("Unknown data of size %d", len(entry))
 		}
