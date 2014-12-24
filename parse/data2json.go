@@ -68,7 +68,7 @@ func parseAccident(entry string) *njcrash.Accident {
 }
 
 func main() {
-	file, err := os.Open("accidents.txt")
+	file, err := os.Open("testdata/accidents.txt")
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -82,18 +82,18 @@ func main() {
 		// Determine the type of entry by it's size.
 		switch len(entry) {
 		case 74, 161, 240, 200:
-			log.Fatal("Filetype unimplemented.")
+			log.Println("Filetype unimplemented.")
 		case 458: // Accident
 			accident := parseAccident(entry)
-			log.Printf("Accident: %#v\n", accident)
+			log.Printf("Accident: %#v", accident)
 			log.Println(accident.Time.String())
 			data, err := json.Marshal(accident)
 			if err != nil {
-				log.Fatal(err)
+				log.Println(err)
 			}
 			fmt.Println(string(data))
 		default:
-			log.Fatalf("Unknown data of size %d", len(entry))
+			log.Printf("Unknown data of size %d", len(entry))
 		}
 	}
 	if err := scanner.Err(); err != nil {
