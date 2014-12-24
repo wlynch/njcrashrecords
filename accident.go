@@ -1,5 +1,9 @@
 package njcrash
 
+import (
+	"time"
+)
+
 type Accident struct {
 	Year                        int
 	CountyCode                  int
@@ -19,10 +23,10 @@ type Accident struct {
 	PedestriansInjured          int
 	Severity                    string
 	Intersection                string
-	AlcoholInvolved             string
-	HazMatInvolved              string
+	AlcoholInvolved             bool
+	HazMatInvolved              bool
 	CrashTypeCode               string
-	TotalVehiclesInvolved       string
+	TotalVehiclesInvolved       int
 	CrashLocation               string
 	LocationDirection           string
 	Route                       string
@@ -41,14 +45,17 @@ type Accident struct {
 	UnitOfMeasurement           string
 	DirectionFromCrossStreet    string
 	CrossStreetName             string
-	IsRamp                      string
+	IsRamp                      bool
 	RampRouteName               string
 	RampRouteDirection          string
-	PostedSpeed                 string
-	PostedSpeedCrossStreet      string
+	PostedSpeed                 int
+	PostedSpeedCrossStreet      int
 	Latitude                    string
 	Longitude                   string
-	CellPhoneInUseFlag          string
+	CellPhoneInUse              bool
 	OtherPropertyDamage         string
 	ReportingBadgeNo            string
+
+	// Custom defined
+	Time time.Time
 }
