@@ -1,16 +1,19 @@
 package njcrash
 
 type Occupant struct {
-	Person
-	VehicleId                string `json:"vehicle_id,omitempty"`
-	OccupantId               string `json:"occupant_id,omitempty"`
+	DepartmentCaseId         string `json:"department_case_id,omitempty"`
+	VehicleNumber            int    `json:"vehicle_number,omitempty"`
+	OccupantNumber           int    `json:"occupant_number,omitempty"`
+	PhysicalStatus           string `json:"physical_status,omitempty"`
 	PositionInVehicle        string `json:"position_in_vehicle,omitempty"`
 	EjectionCode             string `json:"ejection_code,omitempty"`
+	Age                      int    `json:"age,omitempty"`
+	Sex                      string `json:"sex,omitempty"`
 	InjuryLocation           string `json:"injury_location,omitempty"`
 	InjuryType               string `json:"injury_type,omitempty"`
 	RefusedMedicalAttention  bool   `json:"refused_medical_attention"`
-	SafetyEquipmentAvailable bool   `json:"safety_equipment_available"`
-	SafetyEquipmentUsed      bool   `json:"safety_equipment_used"`
-	AirbagDeployment         bool   `json:"airbag_deployment"`
-	HospitalCode             string `json:",omitempty"`
+	SafetyEquipmentAvailable string `json:"safety_equipment_available,omitempty"`
+	SafetyEquipmentUsed      string `json:"safety_equipment_used,omitempty"`
+	AirbagDeployment         string `json:"airbag_deployment,omitempty"`
+	HospitalCode             string `json:"hospital_code,omitempty"`
 }

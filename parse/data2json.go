@@ -67,6 +67,27 @@ func parseAccident(entry string) *njcrash.Accident {
 	return &accident
 }
 
+func parseOccupant(entry string) *njcrash.Occupant {
+	occupant := njcrash.Occupant{
+		DepartmentCaseId:         parseString(entry[8:31]),
+		VehicleNumber:            parseInt(entry[32:34]),
+		OccupantNumber:           parseInt(entry[35:37]),
+		PhysicalStatus:           parseString(entry[38:40]),
+		PositionInVehicle:        parseString(entry[41:43]),
+		EjectionCode:             parseString(entry[44:46]),
+		Age:                      parseInt(entry[47:50]),
+		Sex:                      parseString(entry[51:52]),
+		InjuryLocation:           parseString(entry[53:55]),
+		InjuryType:               parseString(entry[56:58]),
+		RefusedMedicalAttention:  parseBool(entry[59:60]),
+		SafetyEquipmentAvailable: parseString(entry[61:63]),
+		SafetyEquipmentUsed:      parseString(entry[64:66]),
+		AirbagDeployment:         parseString(entry[67:69]),
+		HospitalCode:             parseString(entry[70:74]),
+	}
+	return &occupant
+}
+
 func main() {
 	for _, path := range os.Args[1:] {
 		file, err := os.Open(path)
@@ -82,7 +103,15 @@ func main() {
 			log.Println(entry)
 			// Determine the type of entry by it's size.
 			switch len(entry) {
-			case 74, 161, 240, 200:
+			case 74: // Occupant
+				occupant := parseOccupant(entry)
+				log.Printf("Occupant: %#v", occupant)
+				data, err := json.Marshal(occupant)
+				if err != nil {
+					log.Println(err)
+				}
+				fmt.Println(string(data))
+			case 161, 240, 200:
 				log.Println("Filetype unimplemented.")
 			case 458: // Accident
 				accident := parseAccident(entry)
