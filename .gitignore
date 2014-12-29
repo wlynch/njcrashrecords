@@ -3,3 +3,4 @@
 
 # Block out all the scraped data.
 data/**/*
+!data/*
