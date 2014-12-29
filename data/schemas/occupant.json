@@ -1,7 +1,7 @@
 [
 	{"name": "department_case_id", "type": "string", "mode": "required"},
 	{"name": "vehicle_number", "type": "integer"},
-	{"name": "vehicle_number", "type": "integer"},
+	{"name": "occupant_number", "type": "integer"},
 	{"name": "physical_condition", "type": "string"},
 	{"name": "position_in_vehicle", "type": "string"},
 	{"name": "ejection_code", "type": "string"},
@@ -13,5 +13,5 @@
 	{"name": "safety_equipment_available", "type": "string"},
 	{"name": "safety_equipment_used", "type": "string"},
 	{"name": "airbag_deployment", "type": "string"},
-	{"name": "hosptial_code", "type": "string"}
+	{"name": "hospital_code", "type": "string"}
 ]

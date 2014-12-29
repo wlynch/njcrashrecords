@@ -1,11 +1,11 @@
 [
 	{"name": "department_case_id", "type": "string", "mode": "required"},
 	{"name": "vehicle_number", "type": "integer"},
-	{"name": "address", "type": "string", "mode": "record", "fields":[
-		{"name": "city", "type": "string", "mode": "required"},
-		{"name": "state", "type": "string", "mode": "required"},
-		{"name": "zip", "type": "string", "mode": "required"}
-	},
+	{"name": "address", "type": "record", "mode": "nullable", "fields":[
+		{"name": "city", "type": "string"},
+		{"name": "state", "type": "string"},
+		{"name": "zip", "type": "string"}
+	]},
 	{"name": "license_state", "type": "string"},
 	{"name": "dob", "type": "timestamp"},
 	{"name": "sex", "type": "string"},

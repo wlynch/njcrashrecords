@@ -1,13 +1,14 @@
 [
 	{"name": "department_case_id", "type": "string", "mode": "required"},
 	{"name": "pedestrian_number", "type": "integer"},
-	{"name": "physical_condition", "type": "string", "mode": "required"},
-	{"name": "address", "type": "string", "mode": "record", "fields":[
-		{"name": "city", "type": "string", "mode": "required"},
-		{"name": "state", "type": "string", "mode": "required"},
-		{"name": "zip", "type": "string", "mode": "required"}
-	},
+	{"name": "physical_condition", "type": "string"},
+	{"name": "address", "type": "record", "mode": "nullable", "fields":[
+		{"name": "city", "type": "string"},
+		{"name": "state", "type": "string"},
+		{"name": "zip", "type": "string"}
+	]},
 	{"name": "dob", "type": "timestamp"},
+	{"name": "age", "type": "integer"},
 	{"name": "sex", "type": "string"},
 	{"name": "traffic_controls", "type": "string"},
 	{"name": "alcohol_test_given", "type": "boolean"},
@@ -21,7 +22,7 @@
 	{"name": "precrash_action", "type": "string"},
 	{"name": "injury_location", "type": "string"},
 	{"name": "injury_type", "type": "string"},
-	{"name": "refused_meducal_attention", "type": "boolean"},
+	{"name": "refused_medical_attention", "type": "boolean"},
 	{"name": "safety_equipment_used", "type": "string"},
 	{"name": "hospital_code", "type": "string"},
 	{"name": "physical_status", "type": "string"},

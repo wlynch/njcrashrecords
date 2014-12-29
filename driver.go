@@ -6,7 +6,7 @@ import (
 
 type Driver struct {
 	DepartmentCaseId   string    `json:"department_case_id,omitempty"`
-	VehicleNumber      int       `json:"vehicle_id,omitempty"`
+	VehicleNumber      int       `json:"vehicle_number,omitempty"`
 	Address            Address   `json:"address,omitempty"`
 	LicenseState       string    `json:"license_state,omitempty"`
 	DOB                time.Time `json:"dob,omitempty"`

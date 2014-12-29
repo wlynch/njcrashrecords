@@ -48,6 +48,6 @@
 	{"name": "longitude", "type": "float"},
 	{"name": "cell_phone_in_use", "type": "boolean"},
 	{"name": "other_property_damage", "type": "string"},
-	{"name": "reporting_badge_number", "type": "string"},
+	{"name": "reporting_badge_id", "type": "string"},
 	{"name": "time", "type": "timestamp"}
 ]

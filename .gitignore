@@ -4,3 +4,6 @@ data/*
 
 # Ignore temp vim files
 *.swp
+
+# Built binaries
+parse/parse
