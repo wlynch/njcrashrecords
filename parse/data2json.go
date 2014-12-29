@@ -64,6 +64,7 @@ func parseAccident(entry string) *njcrash.Accident {
 		ReportingBadgeId:            parseString(entry[453:458]),
 	}
 	accident.Time = parseTime(accident.CrashDate, accident.CrashTime)
+	log.Printf("Accident: %#v", accident)
 	return &accident
 }
 
@@ -86,6 +87,7 @@ func parseDriver(entry string) *njcrash.Driver {
 		MultiCharge:        parseBool(entry[157:158]),
 		PhysicalStatus:     parseString(entry[159:161]),
 	}
+	log.Printf("Driver: %#v", driver)
 	return &driver
 }
 
@@ -94,7 +96,7 @@ func parseOccupant(entry string) *njcrash.Occupant {
 		DepartmentCaseId:         parseString(entry[8:31]),
 		VehicleNumber:            parseInt(entry[32:34]),
 		OccupantNumber:           parseInt(entry[35:37]),
-		PhysicalStatus:           parseString(entry[38:40]),
+		PhysicalCondition:        parseString(entry[38:40]),
 		PositionInVehicle:        parseString(entry[41:43]),
 		EjectionCode:             parseString(entry[44:46]),
 		Age:                      parseInt(entry[47:50]),
@@ -107,7 +109,44 @@ func parseOccupant(entry string) *njcrash.Occupant {
 		AirbagDeployment:         parseString(entry[67:69]),
 		HospitalCode:             parseString(entry[70:74]),
 	}
+	log.Printf("Occupant: %#v", occupant)
 	return &occupant
+}
+
+func parsePedestrian(entry string) *njcrash.Pedestrian {
+	pedestrian := njcrash.Pedestrian{
+		DepartmentCaseId:  parseString(entry[8:31]),
+		PedestrianNumber:  parseInt(entry[32:34]),
+		PhysicalCondition: parseString(entry[35:37]),
+		Address: njcrash.Address{
+			City:  parseString(entry[38:63]),
+			State: parseString(entry[64:66]),
+			Zip:   parseString(entry[67:72]),
+		},
+		DOB:                       parseTime(parseString(entry[73:83]), "0000"),
+		Age:                       parseInt(entry[84:87]),
+		Sex:                       parseString(entry[88:89]),
+		AlcoholTestGiven:          parseBool(entry[90:91]),
+		AlcoholTestType:           parseString(entry[92:94]),
+		AlcoholTestResults:        parseString(entry[95:98]),
+		Charge:                    parseString(entry[99:129]),
+		Summons:                   parseString(entry[130:160]),
+		MultiCharge:               parseBool(entry[161:162]),
+		TrafficControls:           parseString(entry[163:165]),
+		ContributingCircumstances: []string{parseString(entry[166:168]), parseString(entry[169:171])},
+		DirectionOfTravel:         parseString(entry[172:173]),
+		PreCrashAction:            parseString(entry[175:177]),
+		InjuryLocation:            parseString(entry[178:180]),
+		InjuryType:                parseString(entry[181:183]),
+		RefusedMedicalAttention:   parseBool(entry[184:185]),
+		SafetyEquipmentUsed:       parseString(entry[186:188]),
+		HospitalCode:              parseString(entry[189:193]),
+		PhysicalStatus:            parseString(entry[194:196]),
+		Bicyclist:                 parseBool(entry[197:198]),
+		Other:                     parseBool(entry[199:200]),
+	}
+	log.Printf("Pedestrian: %#v", pedestrian)
+	return &pedestrian
 }
 
 func main() {
@@ -129,17 +168,17 @@ func main() {
 			switch len(entry) {
 			case 74: // Occupant
 				occupant := parseOccupant(entry)
-				log.Printf("Occupant: %#v", occupant)
 				data, err = json.Marshal(occupant)
-			case 161:
+			case 161: // Driver
 				driver := parseDriver(entry)
-				log.Printf("Driver: %#v", driver)
 				data, err = json.Marshal(driver)
-			case 240, 200:
+			case 200: // Pedestrian
+				pedestrian := parsePedestrian(entry)
+				data, err = json.Marshal(pedestrian)
+			case 240: // Vehicle
 				log.Println("Filetype unimplemented.")
 			case 458: // Accident
 				accident := parseAccident(entry)
-				log.Printf("Accident: %#v", accident)
 				data, err = json.Marshal(accident)
 			default:
 				err = fmt.Errorf("Unknown data of size %d", len(entry))

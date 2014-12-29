@@ -4,7 +4,7 @@ type Occupant struct {
 	DepartmentCaseId         string `json:"department_case_id,omitempty"`
 	VehicleNumber            int    `json:"vehicle_number,omitempty"`
 	OccupantNumber           int    `json:"occupant_number,omitempty"`
-	PhysicalStatus           string `json:"physical_status,omitempty"`
+	PhysicalCondition        string `json:"physical_condition,omitempty"`
 	PositionInVehicle        string `json:"position_in_vehicle,omitempty"`
 	EjectionCode             string `json:"ejection_code,omitempty"`
 	Age                      int    `json:"age,omitempty"`
