@@ -1,6 +1,6 @@
-# Ignore temp vim files
-*.swp
-
 # Block out all the scraped data.
 data/**/*
 !data/*
+
+# Ignore temp vim files
+*.swp
