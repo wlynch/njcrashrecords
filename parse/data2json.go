@@ -149,6 +149,48 @@ func parsePedestrian(entry string) *njcrash.Pedestrian {
 	return &pedestrian
 }
 
+func parseVehicle(entry string) *njcrash.Vehicle {
+	vehicle := njcrash.Vehicle{
+		DepartmentCaseId:        parseString(entry[8:31]),
+		VehicleNumber:           parseInt(entry[32:34]),
+		InsuranceCompanyCode:    parseString(entry[35:39]),
+		OwnerState:              parseString(entry[40:42]),
+		Make:                    parseString(entry[43:73]),
+		Model:                   parseString(entry[74:94]),
+		Color:                   parseString(entry[95:98]),
+		Year:                    parseInt(entry[99:103]),
+		LicensePlateState:       parseString(entry[104:106]),
+		VehicleWeightRating:     parseString(entry[107:108]),
+		Towed:                   parseBool(entry[109:110]),
+		RemovedBy:               parseString(entry[111:113]),
+		InitialImpactLocation:   parseString(entry[114:116]),
+		PrincipalDamageLocation: parseString(entry[117:119]),
+		TrafficControlsPresent:  parseString(entry[120:122]),
+		Type:                      parseString(entry[123:125]),
+		Use:                       parseString(entry[126:128]),
+		SpecialFunction:           parseString(entry[129:131]),
+		CargoBodyType:             parseString(entry[132:134]),
+		ContributingCircumstances: []string{parseString(entry[135:137]), parseString(entry[138:140])},
+		DirectionOfTravel:         parseString(entry[141:143]),
+		PreCrashAction:            parseString(entry[144:146]),
+		SequenceOfEvents: []string{
+			parseString(entry[147:149]),
+			parseString(entry[150:152]),
+			parseString(entry[154:156]),
+			parseString(entry[156:158]),
+		},
+		OversizePermit:  parseString(entry[159:161]),
+		HazMatStatus:    parseString(entry[162:163]),
+		HazMatPlacard:   parseString(entry[164:174]),
+		USDOT:           parseBool(entry[175:176]),
+		USDOTId:         parseString(entry[177:187]),
+		CarrierName:     parseString(entry[188:238]),
+		HitAndRunDriver: parseBool(entry[239:240]),
+	}
+	log.Printf("Vehicle: #%v", vehicle)
+	return &vehicle
+}
+
 func main() {
 	for _, path := range os.Args[1:] {
 		file, err := os.Open(path)
@@ -167,19 +209,15 @@ func main() {
 			// Determine the type of entry by it's size.
 			switch len(entry) {
 			case 74: // Occupant
-				occupant := parseOccupant(entry)
-				data, err = json.Marshal(occupant)
+				data, err = json.Marshal(parseOccupant(entry))
 			case 161: // Driver
-				driver := parseDriver(entry)
-				data, err = json.Marshal(driver)
+				data, err = json.Marshal(parseDriver(entry))
 			case 200: // Pedestrian
-				pedestrian := parsePedestrian(entry)
-				data, err = json.Marshal(pedestrian)
+				data, err = json.Marshal(parsePedestrian(entry))
 			case 240: // Vehicle
-				log.Println("Filetype unimplemented.")
+				data, err = json.Marshal(parseVehicle(entry))
 			case 458: // Accident
-				accident := parseAccident(entry)
-				data, err = json.Marshal(accident)
+				data, err = json.Marshal(parseAccident(entry))
 			default:
 				err = fmt.Errorf("Unknown data of size %d", len(entry))
 			}

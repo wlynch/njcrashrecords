@@ -2,7 +2,7 @@ package njcrash
 
 type Vehicle struct {
 	DepartmentCaseId          string   `json"department_case_id,omitempty"`
-	VehicleId                 string   `json"vehicle_id,omitempty"`
+	VehicleNumber             int      `json"vehicle_id,omitempty"`
 	InsuranceCompanyCode      string   `json"insurance_company_code,omitempty"`
 	OwnerState                string   `json"owner_state,omitempty"`
 	Make                      string   `json"make,omitempty"`
