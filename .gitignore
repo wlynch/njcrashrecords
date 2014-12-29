@@ -1,6 +1,6 @@
 # Block out all the scraped data.
 data/**/*
-!data/*
+!data/schemas
 
 # Ignore temp vim files
 *.swp
