@@ -67,6 +67,28 @@ func parseAccident(entry string) *njcrash.Accident {
 	return &accident
 }
 
+func parseDriver(entry string) *njcrash.Driver {
+	driver := njcrash.Driver{
+		DepartmentCaseId: parseString(entry[8:31]),
+		VehicleNumber:    parseInt(entry[32:34]),
+		Address: njcrash.Address{
+			City:  parseString(entry[35:60]),
+			State: parseString(entry[61:63]),
+			Zip:   parseString(entry[64:69]),
+		},
+		DOB:                parseTime(parseString(entry[73:83]), "0000"),
+		Sex:                parseString(entry[84:85]),
+		AlcoholTestGiven:   parseBool(entry[86:87]),
+		AlcoholTestType:    parseString(entry[88:90]),
+		AlcoholTestResults: parseString(entry[91:94]),
+		Charge:             parseString(entry[95:125]),
+		Summons:            parseString(entry[126:156]),
+		MultiCharge:        parseBool(entry[157:158]),
+		PhysicalStatus:     parseString(entry[159:161]),
+	}
+	return &driver
+}
+
 func parseOccupant(entry string) *njcrash.Occupant {
 	occupant := njcrash.Occupant{
 		DepartmentCaseId:         parseString(entry[8:31]),
@@ -99,6 +121,8 @@ func main() {
 		// Read through the file line by line.
 		scanner := bufio.NewScanner(file)
 		for scanner.Scan() {
+			var data []byte
+			var err error
 			entry := scanner.Text()
 			log.Println(entry)
 			// Determine the type of entry by it's size.
@@ -106,25 +130,25 @@ func main() {
 			case 74: // Occupant
 				occupant := parseOccupant(entry)
 				log.Printf("Occupant: %#v", occupant)
-				data, err := json.Marshal(occupant)
-				if err != nil {
-					log.Println(err)
-				}
-				fmt.Println(string(data))
-			case 161, 240, 200:
+				data, err = json.Marshal(occupant)
+			case 161:
+				driver := parseDriver(entry)
+				log.Printf("Driver: %#v", driver)
+				data, err = json.Marshal(driver)
+			case 240, 200:
 				log.Println("Filetype unimplemented.")
 			case 458: // Accident
 				accident := parseAccident(entry)
 				log.Printf("Accident: %#v", accident)
-				log.Println(accident.Time.String())
-				data, err := json.Marshal(accident)
-				if err != nil {
-					log.Println(err)
-				}
-				fmt.Println(string(data))
+				data, err = json.Marshal(accident)
 			default:
-				log.Printf("Unknown data of size %d", len(entry))
+				err = fmt.Errorf("Unknown data of size %d", len(entry))
 			}
+			if err != nil {
+				log.Println(err)
+				continue
+			}
+			fmt.Println(string(data))
 		}
 		if err := scanner.Err(); err != nil {
 			log.Fatal(err)
