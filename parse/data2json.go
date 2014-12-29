@@ -57,8 +57,8 @@ func parseAccident(entry string) *njcrash.Accident {
 		RampRouteDirection:          parseString(entry[343:345]),
 		PostedSpeed:                 parseInt(entry[346:348]),
 		PostedSpeedCrossStreet:      parseInt(entry[349:351]),
-		Latitude:                    parseString(entry[352:360]),
-		Longitude:                   parseString(entry[361:369]),
+		Latitude:                    parseFloat(entry[352:360]),
+		Longitude:                   parseFloat(entry[361:369]),
 		CellPhoneInUse:              parseBool(entry[370:371]),
 		OtherPropertyDamage:         parseString(entry[372:452]),
 		ReportingBadgeNumber:        parseString(entry[453:458]),
@@ -68,35 +68,37 @@ func parseAccident(entry string) *njcrash.Accident {
 }
 
 func main() {
-	file, err := os.Open("testdata/accidents.txt")
-	if err != nil {
-		log.Fatal(err)
-	}
-	defer file.Close()
-
-	// Read through the file line by line.
-	scanner := bufio.NewScanner(file)
-	for scanner.Scan() {
-		entry := scanner.Text()
-		log.Println(entry)
-		// Determine the type of entry by it's size.
-		switch len(entry) {
-		case 74, 161, 240, 200:
-			log.Println("Filetype unimplemented.")
-		case 458: // Accident
-			accident := parseAccident(entry)
-			log.Printf("Accident: %#v", accident)
-			log.Println(accident.Time.String())
-			data, err := json.Marshal(accident)
-			if err != nil {
-				log.Println(err)
-			}
-			fmt.Println(string(data))
-		default:
-			log.Printf("Unknown data of size %d", len(entry))
+	for _, path := range os.Args[1:] {
+		file, err := os.Open(path)
+		if err != nil {
+			log.Fatal(err)
 		}
-	}
-	if err := scanner.Err(); err != nil {
-		log.Fatal(err)
+		defer file.Close()
+
+		// Read through the file line by line.
+		scanner := bufio.NewScanner(file)
+		for scanner.Scan() {
+			entry := scanner.Text()
+			log.Println(entry)
+			// Determine the type of entry by it's size.
+			switch len(entry) {
+			case 74, 161, 240, 200:
+				log.Println("Filetype unimplemented.")
+			case 458: // Accident
+				accident := parseAccident(entry)
+				log.Printf("Accident: %#v", accident)
+				log.Println(accident.Time.String())
+				data, err := json.Marshal(accident)
+				if err != nil {
+					log.Println(err)
+				}
+				fmt.Println(string(data))
+			default:
+				log.Printf("Unknown data of size %d", len(entry))
+			}
+		}
+		if err := scanner.Err(); err != nil {
+			log.Fatal(err)
+		}
 	}
 }

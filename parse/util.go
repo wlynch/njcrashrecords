@@ -12,6 +12,14 @@ func parseBool(s string) bool {
 	return strings.ToUpper(strings.TrimSpace(s)) == "Y"
 }
 
+func parseFloat(s string) float64 {
+	f, err := strconv.ParseFloat(strings.TrimSpace(s), 32)
+	if err != nil {
+		log.Printf("parseFloat: %v", err)
+	}
+	return f
+}
+
 func parseInt(s string) int {
 	i, err := strconv.Atoi(strings.TrimSpace(s))
 	if err != nil {
