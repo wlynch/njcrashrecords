@@ -1,0 +1,17 @@
+[
+	{"name": "department_case_id", "type": "string", "mode": "required"},
+	{"name": "vehicle_number", "type": "integer"},
+	{"name": "vehicle_number", "type": "integer"},
+	{"name": "physical_condition", "type": "string"},
+	{"name": "position_in_vehicle", "type": "string"},
+	{"name": "ejection_code", "type": "string"},
+	{"name": "age", "type": "integer"},
+	{"name": "sex", "type": "string"},
+	{"name": "injury_location", "type": "string"},
+	{"name": "injury_type", "type": "string"},
+	{"name": "refused_medical_attention", "type": "boolean"},
+	{"name": "safety_equipment_available", "type": "string"},
+	{"name": "safety_equipment_used", "type": "string"},
+	{"name": "airbag_deployment", "type": "string"},
+	{"name": "hosptial_code", "type": "string"}
+]

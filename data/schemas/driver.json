@@ -1,0 +1,19 @@
+[
+	{"name": "department_case_id", "type": "string", "mode": "required"},
+	{"name": "vehicle_number", "type": "integer"},
+	{"name": "address", "type": "string", "mode": "record", "fields":[
+		{"name": "city", "type": "string", "mode": "required"},
+		{"name": "state", "type": "string", "mode": "required"},
+		{"name": "zip", "type": "string", "mode": "required"}
+	},
+	{"name": "license_state", "type": "string"},
+	{"name": "dob", "type": "timestamp"},
+	{"name": "sex", "type": "string"},
+	{"name": "alcohol_test_given", "type": "boolean"},
+	{"name": "alcohol_test_type", "type": "string"},
+	{"name": "alcohol_test_results", "type": "string"},
+	{"name": "charge", "type": "string"},
+	{"name": "summons", "type": "string"},
+	{"name": "multi_charge", "type": "boolean"},
+	{"name": "physical_status", "type": "string"}
+]

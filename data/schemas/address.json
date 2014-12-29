@@ -1,0 +1,5 @@
+[
+	{"name": "city", "type": "string", "mode": "required"},
+	{"name": "state", "type": "string", "mode": "required"},
+	{"name": "zip", "type": "string", "mode": "required"}
+]
