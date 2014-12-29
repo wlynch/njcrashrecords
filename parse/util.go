@@ -32,6 +32,17 @@ func parseString(s string) string {
 	return strings.TrimSpace(s)
 }
 
+func parseStringSequence(seq ...string) []string {
+	var list []string
+	for _, str := range seq {
+		s := parseString(str)
+		if s != "" {
+			list = append(list, s)
+		}
+	}
+	return list
+}
+
 func parseTime(d, t string) time.Time {
 	val, err := time.Parse("01/02/2006 1504 MST", fmt.Sprintf("%s %s EST", d, t))
 	if err != nil {
