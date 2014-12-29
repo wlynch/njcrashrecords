@@ -8,7 +8,7 @@ type Accident struct {
 	Year                        int     `json:"year"`
 	CountyCode                  string  `json:"county_code,omitempty"`
 	MunicipalityCode            string  `json:"municipality_code,omitempty"`
-	DepartmentCaseNumber        string  `json:"department_case_number,omitempty"`
+	DepartmentCaseId            string  `json:"department_case_id,omitempty"`
 	CountyName                  string  `json:"county_name,omitempty"`
 	MunicipalityName            string  `json:"municipality_name,omitempty"`
 	CrashDate                   string  `json:"crash_date,omitempty"`
@@ -54,7 +54,7 @@ type Accident struct {
 	Longitude                   float64 `json:"longitude,omitempty"`
 	CellPhoneInUse              bool    `json:"cell_phone_in_use"`
 	OtherPropertyDamage         string  `json:"other_property_damage,omitempty"`
-	ReportingBadgeNumber        string  `json:"reporting_badge_number,omitempty"`
+	ReportingBadgeId            string  `json:"reporting_badge_id,omitempty"`
 
 	// Custom defined
 	Time time.Time `json:"time,omitempty"`

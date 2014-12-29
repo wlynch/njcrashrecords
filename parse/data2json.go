@@ -15,7 +15,7 @@ func parseAccident(entry string) *njcrash.Accident {
 		Year:                        parseInt(entry[0:4]),
 		CountyCode:                  parseString(entry[4:6]),
 		MunicipalityCode:            parseString(entry[6:8]),
-		DepartmentCaseNumber:        parseString(entry[8:31]),
+		DepartmentCaseId:            parseString(entry[8:31]),
 		CountyName:                  parseString(entry[32:44]),
 		MunicipalityName:            parseString(entry[45:69]),
 		CrashDate:                   parseString(entry[70:80]),
@@ -61,7 +61,7 @@ func parseAccident(entry string) *njcrash.Accident {
 		Longitude:                   parseFloat(entry[361:369]),
 		CellPhoneInUse:              parseBool(entry[370:371]),
 		OtherPropertyDamage:         parseString(entry[372:452]),
-		ReportingBadgeNumber:        parseString(entry[453:458]),
+		ReportingBadgeId:            parseString(entry[453:458]),
 	}
 	accident.Time = parseTime(accident.CrashDate, accident.CrashTime)
 	return &accident
